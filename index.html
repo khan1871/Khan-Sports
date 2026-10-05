@@ -9,3 +9,602 @@ README.txt
   live: true,
   embedUrl: ""
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Khan Sports</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #1d1d1d;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* HEADER */
+        header {
+            height: 74px;
+            background: #252525;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            gap: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 20px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            width: 27px;
+            height: 27px;
+            border-radius: 50%;
+            background: #b9e91b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #222;
+            font-size: 17px;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0 20px;
+            border-right: 1px solid #555;
+        }
+
+        nav a:first-child {
+            border-left: 1px solid #555;
+        }
+
+        nav a:hover {
+            color: #20e99b;
+        }
+
+        /* MAIN */
+        main {
+            width: 94%;
+            max-width: 1180px;
+            margin: auto;
+            padding: 55px 0 90px;
+        }
+
+        /* NOTICE */
+        .notice {
+            border: 1px solid #1ee99a;
+            border-left: 5px solid #1ee99a;
+            border-radius: 6px;
+            background: #202b27;
+            padding: 17px 20px;
+            margin-bottom: 38px;
+            font-size: 18px;
+        }
+
+        .notice strong {
+            color: #1ee99a;
+        }
+
+        /* SECTION */
+        section {
+            margin-top: 35px;
+        }
+
+        h2 {
+            font-size: 27px;
+            margin-bottom: 28px;
+        }
+
+        /* CHANNEL BOX */
+        .channel-box {
+            border: 2px solid #e7e7e7;
+            border-radius: 11px;
+            background: #1b1b1b;
+            padding: 14px 28px 23px;
+
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 13px;
+        }
+
+        /* CHANNEL */
+        .channel {
+            border: 2px solid #ef3030;
+            border-radius: 50%;
+            aspect-ratio: 1 / 1;
+
+            background: #fafafa;
+            color: #222;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .channel:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,.4);
+        }
+
+        .channel-name {
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .channel-logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #1769b0;
+        }
+
+        .football .channel-logo {
+            color: #7b21a5;
+        }
+
+        /* LIVE */
+        .live::after {
+            content: "LIVE";
+            background: #e52d2d;
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-top: 6px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #252525;
+            color: #ccc;
+            text-align: center;
+            padding: 30px 10%;
+            font-size: 14px;
+        }
+
+        /* PLAYER */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.88);
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .player {
+            width: 95%;
+            max-width: 1000px;
+            background: #202020;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .player h3 {
+            margin-top: 0;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 8px;
+
+            background: none;
+            border: none;
+            color: white;
+
+            font-size: 35px;
+            cursor: pointer;
+        }
+
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            background: black;
+            border-radius: 8px;
+        }
+
+        /* MOBILE */
+        @media(max-width:900px) {
+
+            header {
+                padding: 15px 4%;
+                height: auto;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: center;
+            }
+
+            nav a {
+                padding: 0 10px;
+                font-size: 11px;
+            }
+
+            .channel-box {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 12px;
+            }
+        }
+
+        @media(max-width:520px) {
+
+            main {
+                padding-top: 30px;
+            }
+
+            .notice {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 23px;
+            }
+
+            .channel-box {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 9px;
+            }
+
+            .channel-name {
+                font-size: 9px;
+            }
+
+            .channel-logo {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">K</div>
+        <span>Khan Sports</span>
+    </div>
+
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="#cricket">CRICKET</a>
+        <a href="#football">FOOTBALL</a>
+        <a href="#telegram">TELEGRAM</a>
+    </nav>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main id="home">
+
+    <div class="notice">
+        Never miss a live match!
+        Press <strong>Ctrl + D</strong>
+        (or Cmd + D) to bookmark this site
+    </div>
+
+
+    <!-- CRICKET -->
+
+    <section id="cricket">
+
+        <h2>Cricket Channels</h2>
+
+        <div class="channel-box">
+
+            <button class="channel live"
+                onclick="openPlayer('Cricket One', '')">
+                <div class="channel-logo">C1</div>
+                <div class="channel-name">Cricket One</div>
+            </button>
+
+
+            <button class="channel"
+                onclick="openPlayer('Cricket Max', '')">
+                <div class="channel-logo">CM</div>
+                <div class="channel-name">Cricket Max</div>
+            </button>
+
+
+            <button class="channel live"
+                onclick="openPlayer('Sports Plus', '')">
+                <div class="channel-logo">SP</div>
+                <div class="channel-name">Sports Plus</div>
+            </button>
+
+
+            <button class="channel"
+                onclick="openPlayer('Willow Max', '')">
+                <div class="channel-logo">WM</div>
+                <div class="channel-name">Willow Max</div>
+            </button>
+
+
+            <button class="channel"
+                onclick="openPlayer('Star Cricket', '')">
+                <div class="channel-logo">SC</div>
+                <div class="channel-name">Star Cricket</div>
+            </button>
+
+
+            <button class="channel live"
+                onclick="openPlayer('Prime Cricket', '')">
+                <div class="channel-logo">PC</div>
+                <div class="channel-name">Prime Cricket</div>
+            </button>
+
+
+            <button class="channel"
+                onclick="openPlayer('Cricket HD', '')">
+                <div class="channel-logo">HD</div>
+                <div class="channel-name">Cricket HD</div>
+            </button>
+
+
+            <button class="channel"
+                onclick="openPlayer('Arena Cricket', '')">
+                <div class="channel-logo">AC</div>
+                <div class="channel-name">Arena Cricket</div>
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOOTBALL -->
+
+    <section id="football">
+
+        <h2>Football Channels</h2>
+
+        <div class="channel-box">
+
+            <button class="channel football live"
+                onclick="openPlayer('Football One', '')">
+                <div class="channel-logo">F1</div>
+                <div class="channel-name">Football One</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Football Two', '')">
+                <div class="channel-logo">F2</div>
+                <div class="channel-name">Football Two</div>
+            </button>
+
+
+            <button class="channel football live"
+                onclick="openPlayer('Football Max', '')">
+                <div class="channel-logo">FM</div>
+                <div class="channel-name">Football Max</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Arena Football', '')">
+                <div class="channel-logo">AF</div>
+                <div class="channel-name">Arena Football</div>
+            </button>
+
+
+            <button class="channel football live"
+                onclick="openPlayer('Premier Live', '')">
+                <div class="channel-logo">PL</div>
+                <div class="channel-name">Premier Live</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Sport World', '')">
+                <div class="channel-logo">SW</div>
+                <div class="channel-name">Sport World</div>
+            </button>
+
+
+            <button class="channel football live"
+                onclick="openPlayer('Football HD', '')">
+                <div class="channel-logo">FH</div>
+                <div class="channel-name">Football HD</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Main Event', '')">
+                <div class="channel-logo">ME</div>
+                <div class="channel-name">Main Event</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Sports One', '')">
+                <div class="channel-logo">S1</div>
+                <div class="channel-name">Sports One</div>
+            </button>
+
+
+            <button class="channel football live"
+                onclick="openPlayer('Sports Two', '')">
+                <div class="channel-logo">S2</div>
+                <div class="channel-name">Sports Two</div>
+            </button>
+
+
+            <button class="channel football"
+                onclick="openPlayer('Sports Three', '')">
+                <div class="channel-logo">S3</div>
+                <div class="channel-name">Sports Three</div>
+            </button>
+
+
+            <button class="channel football live"
+                onclick="openPlayer('Sports Four', '')">
+                <div class="channel-logo">S4</div>
+                <div class="channel-name">Sports Four</div>
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer id="telegram">
+
+    <p>
+        Khan Sports shares third-party links and holds no ownership
+        of the content. All channels and streams are the property
+        of their respective owners.
+    </p>
+
+</footer>
+
+
+<!-- PLAYER POPUP -->
+
+<div class="modal" id="playerModal">
+
+    <div class="player">
+
+        <button class="close" onclick="closePlayer()">×</button>
+
+        <h3 id="playerTitle">Live Channel</h3>
+
+        <iframe
+            id="streamFrame"
+            src=""
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function openPlayer(name, url) {
+
+    document.getElementById("playerTitle").innerText = name;
+
+    const frame = document.getElementById("streamFrame");
+
+    if (url) {
+
+        frame.src = url;
+
+    } else {
+
+        frame.srcdoc = `
+            <html>
+
+            <body style="
+                margin:0;
+                background:#080808;
+                color:white;
+                font-family:Arial;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+            ">
+
+                <div>
+
+                    <h2>${name}</h2>
+
+                    <p style="color:#aaa">
+                        No stream has been added yet.
+                    </p>
+
+                </div>
+
+            </body>
+
+            </html>
+        `;
+    }
+
+    document
+        .getElementById("playerModal")
+        .classList.add("active");
+}
+
+
+function closePlayer() {
+
+    document
+        .getElementById("playerModal")
+        .classList.remove("active");
+
+    document.getElementById("streamFrame").src = "";
+
+    document.getElementById("streamFrame").srcdoc = "";
+}
+
+
+/* ESC BUTTON */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closePlayer();
+
+    }
+
+});
+
+</script>
+
+</body>
+  </html>
